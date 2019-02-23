@@ -9,6 +9,7 @@
 /ArduinoOutput
 /ARDUINO-SRC/LIB
 /ARDUINO-SRC/.vscode
+/Server/BackEnd/node_modules
 
 # IDEs and editors
 /.idea

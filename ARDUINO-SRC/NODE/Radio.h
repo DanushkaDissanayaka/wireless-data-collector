@@ -21,7 +21,7 @@ void RadioInit()
     radio.setDataRate(RF24_250KBPS);
 }
 
-String RadioRead(uint8_t channel, const byte *address)
+String RadioRead(uint8_t channel, const byte *address, uint8_t attempt)
 {
     // Serial.print("Reaing Start");
 
@@ -44,11 +44,10 @@ String RadioRead(uint8_t channel, const byte *address)
     }
 
     // if read error occure try read again from node
-    if (secondRead)
+    attempt--;
+    if (attempt > 0)
     {
-        secondRead = false;
-        Serial.println("trying to read second time");
-        return RadioRead(channel, address);
+        return RadioRead(channel, address, attempt);
     }
 
     // still canot read ther is some falt in node
@@ -56,18 +55,30 @@ String RadioRead(uint8_t channel, const byte *address)
     return "e";
 }
 
-bool RadioWrite(String data, const byte *address)
+bool RadioWrite(String data, const byte *address, uint8_t attempt)
 {
-    radio.openWritingPipe(address);
     radio.stopListening();
-
+    radio.openWritingPipe(address);
+    
     const char datatoWrite[READ_WRITEBUFF_SIZE];
     data.toCharArray(datatoWrite, READ_WRITEBUFF_SIZE);
-    
+
     if (radio.write(&datatoWrite, sizeof(datatoWrite)))
     {
         return true;
     }
+
+    // if write error occure try again;
+    attempt--;
+    if (attempt > 0)
+    {
+        //Serial.print("trying to Write attempt : ");
+        //Serial.println(attempt);
+        delay(100); // give some delay before try next attempt
+        return RadioWrite(data, address, attempt);
+    }
+
+    // stil canot write then ther is erro in node
     return false;
 }
 

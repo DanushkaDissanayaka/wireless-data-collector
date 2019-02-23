@@ -1,41 +1,45 @@
-
-// #include <SPI.h>
-// #include <nRF24L01.h>
-// #include <RF24.h>
-
 #include "settings.h"
 #include "Radio.h"
 
-// RF24 radio(7, 8); // CE, CSN
-// const byte address[6] = "00001";
-
-void setup() {
-  RadioInit();
+void setup()
+{
   Serial.begin(9600);
-  /*radio.begin();
-  radio.openWritingPipe(address);
-  radio.setPALevel(RF24_PA_MAX);
-  radio.setDataRate(RF24_250KBPS);
-  radio.stopListening();*/
-  
+  RadioInit();
 }
-void loop() {
+void loop()
+{
 
- if(RadioWrite(GetData(),NODE_ADDRESS)){
-   Serial.println("Write success");
- } 
- else{
-   Serial.println("Fail to Write data");
- }
- delay(WRITING_WAITING);
-  /*String data = GetData();
-  const char datatoWrite[32];
-  data.toCharArray(datatoWrite,32);
-  radio.write(&datatoWrite, sizeof(datatoWrite));
-  delay(1000);*/
+  // if (RadioWrite(GetData(), NODE_ADDRESS, 3))
+  // {
+  //   Serial.println("Write success");
+  // }
+  // else
+  // {
+  //   Serial.println("Fail to Write data");
+  // }
+
+  // delay(WRITING_WAITING);
+  sendData();
 }
 
-String GetData(void){
-
+String GetData(void)
+{
   return "Data From Node 1";
+}
+
+void sendData(void)
+{
+  // Wait for get data request from controller
+  if (RadioRead(0, NODE_ADDRESS_READING, 0) == DATA_REQUEST)
+  {
+    // Serial.println("Found data request");
+    if (RadioWrite(GetData(), NODE_ADDRESS_WRITING, 3))
+    {
+      Serial.println("Write success");
+    }
+    else
+    {
+      Serial.println("Fail to Write data");
+    }
+  }
 }

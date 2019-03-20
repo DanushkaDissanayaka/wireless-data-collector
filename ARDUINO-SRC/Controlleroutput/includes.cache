@@ -1,0 +1,47 @@
+[
+  {
+    "Sourcefile": "",
+    "Include": "",
+    "Includepath": "C:\\Program Files (x86)\\Arduino\\hardware\\arduino\\avr\\cores\\arduino"
+  },
+  {
+    "Sourcefile": "",
+    "Include": "",
+    "Includepath": "C:\\Program Files (x86)\\Arduino\\hardware\\arduino\\avr\\variants\\standard"
+  },
+  {
+    "Sourcefile": "f:\\OneDrive - Faculty of Information Technology - University of Moratuwa\\GIT\\wireless data collector\\ARDUINO-SRC\\Controlleroutput\\sketch\\controller.ino.cpp",
+    "Include": "SPI.h",
+    "Includepath": "C:\\Program Files (x86)\\Arduino\\hardware\\arduino\\avr\\libraries\\SPI\\src"
+  },
+  {
+    "Sourcefile": "f:\\OneDrive - Faculty of Information Technology - University of Moratuwa\\GIT\\wireless data collector\\ARDUINO-SRC\\Controlleroutput\\sketch\\controller.ino.cpp",
+    "Include": "ArduinoJson.h",
+    "Includepath": "C:\\Users\\Shawn\\Documents\\Arduino\\libraries\\ArduinoJson\\src"
+  },
+  {
+    "Sourcefile": "f:\\OneDrive - Faculty of Information Technology - University of Moratuwa\\GIT\\wireless data collector\\ARDUINO-SRC\\Controlleroutput\\sketch\\controller.ino.cpp",
+    "Include": "EEPROM.h",
+    "Includepath": "C:\\Program Files (x86)\\Arduino\\hardware\\arduino\\avr\\libraries\\EEPROM\\src"
+  },
+  {
+    "Sourcefile": "f:\\OneDrive - Faculty of Information Technology - University of Moratuwa\\GIT\\wireless data collector\\ARDUINO-SRC\\Controlleroutput\\sketch\\controller.ino.cpp",
+    "Include": "nRF24L01.h",
+    "Includepath": "C:\\Users\\Shawn\\Documents\\Arduino\\libraries\\RF24"
+  },
+  {
+    "Sourcefile": "f:\\OneDrive - Faculty of Information Technology - University of Moratuwa\\GIT\\wireless data collector\\ARDUINO-SRC\\Controlleroutput\\sketch\\controller.ino.cpp",
+    "Include": "",
+    "Includepath": ""
+  },
+  {
+    "Sourcefile": "C:\\Program Files (x86)\\Arduino\\hardware\\arduino\\avr\\libraries\\SPI\\src\\SPI.cpp",
+    "Include": "",
+    "Includepath": ""
+  },
+  {
+    "Sourcefile": "C:\\Users\\Shawn\\Documents\\Arduino\\libraries\\RF24\\RF24.cpp",
+    "Include": "",
+    "Includepath": ""
+  }
+]

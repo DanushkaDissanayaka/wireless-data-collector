@@ -1,0 +1,7 @@
+{
+    "board": "arduino:avr:pro",
+    "port": "COM13",
+    "sketch": "node.ino",
+    "output": "../Nodeoutput",
+    "configuration": "cpu=16MHzatmega328"
+}

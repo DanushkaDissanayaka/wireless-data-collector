@@ -4,8 +4,10 @@
 #include "nRF24L01.h"
 #include "RF24.h"
 #include "printf.h"
+//#include "radio.h"
 #include "setting.h"
-#include "radio.h"
+
+RF24 radio(4, 3); // Set up nRF24L01 radio on SPI bus plus pins 7 & 
 
 /* jason declarations */
 StaticJsonDocument<512> doc;
@@ -27,7 +29,11 @@ void setup()
   Serial.begin(115200);
   printf_begin();
   // Setup and configure rf radio
-  radio.begin();
+      while (!radio.begin())
+    {
+        Serial.println("Radio error"); // Indicate radio error
+        delay(1000);
+    }
   radio.setPALevel(RF24_PA_MAX);
   radio.setDataRate(RF24_250KBPS);
   radio.enableAckPayload();      // We will be using the Ack Payload feature, so please enable it

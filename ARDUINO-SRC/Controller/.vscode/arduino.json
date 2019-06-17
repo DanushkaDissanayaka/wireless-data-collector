@@ -1,6 +1,5 @@
 {
-    "board": "arduino:avr:uno",
-    "port": "COM10",
-    "sketch": "controller.ino",
-    "output": "../Controlleroutput"
+    "board": "arduino:avr:mega",
+    "configuration": "cpu=atmega2560",
+    "sketch": "controller.ino"
 }

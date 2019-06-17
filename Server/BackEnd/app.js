@@ -47,4 +47,4 @@ app.use('/node',Node);
 //start server
 app.listen(port,()=>{
     console.log('server started on port' + port);
-    })
+})

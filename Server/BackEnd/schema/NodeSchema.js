@@ -9,7 +9,7 @@ const NodedataSchema = mongoose.Schema({
     }
 })
 
-const data = module.exports = mongoose.model('Data',NodedataSchema);
+module.exports = mongoose.model('NodeData',NodedataSchema);
 
 // Node schema
 const NodeSchema = mongoose.Schema({
@@ -32,7 +32,7 @@ const ControllerSchema = mongoose.Schema({
     constrollerId:{
         type:String,
         required: true,
-        unique: true
+        unique: true 
     },
     constrollerName:{
         type:String,

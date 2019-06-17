@@ -58,6 +58,7 @@ router.post('/addNewCollector',function(req,res,next){
 });
 
 router.get('/test', (req, res, next) => {
+    console.log(req);
     console.log("Test Route");
     res.status(200).json({
         Msg: "Test Route..."

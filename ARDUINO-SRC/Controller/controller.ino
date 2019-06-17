@@ -7,7 +7,7 @@
 //#include "radio.h"
 #include "setting.h"
 
-RF24 radio(4, 3); // Set up nRF24L01 radio on SPI bus plus pins 7 & 
+RF24 radio(4, 3); // Set up nRF24L01 radio on SPI bus plus pins 7 & CE/CS
 
 /* jason declarations */
 StaticJsonDocument<512> doc;

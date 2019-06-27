@@ -24,7 +24,7 @@ const char server[] = "wireless-data-collector.herokuapp.com";
 const char resource[] = "/TinyGSM/logo.txt";
 const int  port = 80;
 
-String urlpath = "/node/addData";
+String urlpath = "/node/test";
 String type = "application/json";
 String message ="{\"node0\":{\"data0\": \"1234\",\"data1\": \"2345\", \"retry\": \"4\"},\"node1\":{\"data0\": \"1234\",\"data1\": \"2345\", \"retry\": \"4\" }, \"controlName\": \"new name\", \"date\": \"2019/4/5\", \"time\": \"12:02\", \"packets\": 8 }"; 
 /* **

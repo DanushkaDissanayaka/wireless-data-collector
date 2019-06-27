@@ -1,15 +1,23 @@
+#include <Arduino.h>
+#line 1 "g:\\wireless-data-collector\\ARDUINO-SRC\\CONTROLLER\\Radio.h"
+#line 1 "g:\\wireless-data-collector\\ARDUINO-SRC\\CONTROLLER\\Radio.h"
+#if !defined(RADIO_H)
+#define RADIO_H
+// Hardware configuration
+RF24 radio(7, 8); // Set up nRF24L01 radio on SPI bus plus pins 7 & 8
+
+
+#endif            // RADIO_H
+
+#line 1 "g:\\wireless-data-collector\\ARDUINO-SRC\\CONTROLLER\\controller.ino"
 #include <SPI.h>
 #include <ArduinoJson.h>
 #include <EEPROM.h>
 #include "nRF24L01.h"
 #include "RF24.h"
 #include "printf.h"
-//#include "radio.h"
 #include "setting.h"
-#include "simcard.h"
-// #include "rtc.h"
-
-RF24 radio(4, 3); // Set up nRF24L01 radio on SPI bus plus pins 7 & CE/CS
+#include "radio.h"
 
 /* jason declarations */
 StaticJsonDocument<512> doc;
@@ -30,13 +38,8 @@ void setup()
 {
   Serial.begin(115200);
   printf_begin();
-  simInit();
   // Setup and configure rf radio
-      while (!radio.begin())
-    {
-        Serial.println("Radio error"); // Indicate radio error
-        delay(1000);
-    }
+  radio.begin();
   radio.setPALevel(RF24_PA_MAX);
   radio.setDataRate(RF24_250KBPS);
   radio.enableAckPayload();      // We will be using the Ack Payload feature, so please enable it
@@ -71,17 +74,14 @@ void loop()
   for (uint8_t i = 0; i < NUMITEMS(NODE_ADDRESS); i++)
   {
     data["node" + String(i)] = nodeData[i];
-    // if(1) Serial.println(nodeData[i]);
   }
 
   data["centralName"] = CENTRAL_NAME;         // Insert data collecting central name
-  data["date"] = "2019/03/16";     // Add date time
-  data["time"] = "20:25";     // Add date time
+  data["DateTime"] = "2019/03/16 20:25";     // Add date time
   data["packet"] = packetCounter;           // Add Packet number
   serializeJson(data, jsonOutput);
   Serial.println(jsonOutput);
   Serial.println(jsonOutput.length());
-  sendMessage(jsonOutput);
   delay(10000);                         // Wait some time before beign next cycle
 }
 
@@ -207,3 +207,4 @@ String decriptData(String Nodedata,uint8_t retry)
   if(DEBUG) Serial.println(jsonOutput); // print to serilal monitoro for debug purpuses
   return jsonOutput;
 }
+

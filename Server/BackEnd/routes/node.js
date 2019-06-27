@@ -57,7 +57,7 @@ router.post('/addNewCollector',function(req,res,next){
     console.log("access route");
 });
 
-router.get('/test', (req, res, next) => {
+router.post('/test', (req, res, next) => {
     console.log(req);
     console.log("Test Route");
     res.status(200).json({

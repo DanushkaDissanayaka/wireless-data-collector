@@ -27,7 +27,7 @@ router.post('/addNewNode',function(req,res,next){
 });
 
 router.post('/addData',function(req,res,next){
-    console.log(req.body);
+    console.log(req);
     var stringTime = req.body.time;
     var parts = stringTime.split(':');
     var minutes = parts[1]*60+ +parts[0];
@@ -57,7 +57,7 @@ router.post('/addNewCollector',function(req,res,next){
     console.log("access route");
 });
 
-router.get('/test', (req, res, next) => {
+router.post('/test', (req, res, next) => {
     console.log(req);
     console.log("Test Route");
     res.status(200).json({

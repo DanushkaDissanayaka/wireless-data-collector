@@ -37,6 +37,7 @@ void setup()
         Serial.println("Radio error"); // Indicate radio error
         delay(1000);
     }
+  simInit();//initialize simcard
   radio.setPALevel(RF24_PA_MAX);
   radio.setDataRate(RF24_250KBPS);
   radio.enableAckPayload();      // We will be using the Ack Payload feature, so please enable it
@@ -67,7 +68,7 @@ void loop()
 
   jsonOutput = "";
   JsonObject data = doc.to<JsonObject>();               // create json object
-
+  
   for (uint8_t i = 0; i < NUMITEMS(NODE_ADDRESS); i++)
   {
     data["node" + String(i)] = nodeData[i];

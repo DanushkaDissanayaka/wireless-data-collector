@@ -6,10 +6,10 @@
 #include "printf.h"
 //#include "radio.h"
 #include "setting.h"
-#include "simcard.h"
-// #include "rtc.h"
+//#include "simcard.h"
+//#include "rtc.h"
 
-RF24 radio(4, 3); // Set up nRF24L01 radio on SPI bus plus pins 7 & CE/CS
+RF24 radio(7, 8); // Set up nRF24L01 radio on SPI bus plus pins 7 & CE/CS
 
 /* jason declarations */
 StaticJsonDocument<512> doc;
@@ -30,14 +30,15 @@ void setup()
 {
   Serial.begin(115200);
   printf_begin();
-  simInit();
+  //simInit();
+  //rtcSetup();
   // Setup and configure rf radio
-      while (!radio.begin())
-    {
-        Serial.println("Radio error"); // Indicate radio error
-        delay(1000);
-    }
-  simInit();//initialize simcard
+  while (!radio.begin())
+  {
+    Serial.println("Radio error"); // Indicate radio error
+    delay(1000);
+  }
+  //simInit(); //initialize simcard
   radio.setPALevel(RF24_PA_MAX);
   radio.setDataRate(RF24_250KBPS);
   radio.enableAckPayload();      // We will be using the Ack Payload feature, so please enable it
@@ -54,42 +55,42 @@ void setup()
 
 void loop()
 {
-  
+
   Serial.println(F("\tNew cycle bigin..."));
-  packetCounter ++;                                          // incriment packet Count
-  String nodeData[NUMITEMS(NODE_ADDRESS)];                  // hold every node data to this array;
+  packetCounter++;                         // incriment packet Count
+  String nodeData[NUMITEMS(NODE_ADDRESS)]; // hold every node data to this array;
 
   for (uint8_t i = 0; i < NUMITEMS(NODE_ADDRESS); i++)
   {
     radio.openWritingPipe(NODE_ADDRESS[i]);
-    delay(200);                                           // add some delay to configure radio
+    delay(200); // add some delay to configure radio
     nodeData[i] = getData();
   }
 
   jsonOutput = "";
-  JsonObject data = doc.to<JsonObject>();               // create json object
-  
+  JsonObject data = doc.to<JsonObject>(); // create json object
+
   for (uint8_t i = 0; i < NUMITEMS(NODE_ADDRESS); i++)
   {
     data["node" + String(i)] = nodeData[i];
     // if(1) Serial.println(nodeData[i]);
   }
 
-  data["centralName"] = CENTRAL_NAME;         // Insert data collecting central name
-  data["date"] = "2019/03/16";     // Add date time
-  data["time"] = "20:25";     // Add date time
-  data["packet"] = packetCounter;           // Add Packet number
+  data["centralName"] = CENTRAL_NAME; // Insert data collecting central name
+  //data["date"] = getDateRtc();        // Add date time
+  //data["time"] = getTimeRtc();             // Add date time
+  //data["packet"] = packetCounter;     // Add Packet number
   serializeJson(data, jsonOutput);
   Serial.println(jsonOutput);
   Serial.println(jsonOutput.length());
-  sendMessage(jsonOutput);
-  delay(10000);                         // Wait some time before beign next cycle
+  //sendMessage(jsonOutput);
+  delay(10000); // Wait some time before beign next cycle
 }
 
 String getData()
 {
   uint8_t retry = 0;
-  bool badCommunicationLinkFlag = false;        // Indicate link is not working
+  bool badCommunicationLinkFlag = false; // Indicate link is not working
 
   if (!dataWaitingFlag && !dataDecriptionFlag) // send data request if we not wait data from node
   {
@@ -100,13 +101,15 @@ String getData()
   {
     // Do nothing wait for data receive
     //If bad Data resived try Again
-    if(DEBUG) Serial.println(F("Waiting for data"));
+    if (DEBUG)
+      Serial.println(F("Waiting for data"));
     if (badDataFlag)
     {
       sendRequest();
       if (retry > RETRY_TIMES)
       { // if reach the maximum retrys break the loop
-        if(DEBUG) Serial.println(F("Communication error"));
+        if (DEBUG)
+          Serial.println(F("Communication error"));
         badCommunicationLinkFlag = true;
         break;
       }
@@ -121,21 +124,23 @@ String getData()
   while (!dataDecriptionFlag && !badCommunicationLinkFlag)
   {
     //Wait for data to set for decript
-    if(DEBUG) Serial.println(F("\tWaiting for Decript"));
+    if (DEBUG)
+      Serial.println(F("\tWaiting for Decript"));
     delay(50);
   }
 
   if (dataDecriptionFlag)
   {
     dataDecriptionFlag = false;
-    return decriptData(incomingData,retry);
+    return decriptData(incomingData, retry);
   }
-  return decriptData(ERROR_MSG,retry);
+  return decriptData(ERROR_MSG, retry);
 }
 
 void sendRequest()
 {
- if(DEBUG)  Serial.println(F("Now sending request"));
+  if (DEBUG)
+    Serial.println(F("Now sending request"));
   radio.startWrite(&REQUEST_CODE, sizeof(REQUEST_CODE), 0);
 }
 
@@ -149,7 +154,8 @@ void checkRadio(void)
   {
     // Have we successfully transmitted request?
     // If we successfully send the request wait for the data
-    if(DEBUG) Serial.println(F("Send:OK"));
+    if (DEBUG)
+      Serial.println(F("Send:OK"));
     badDataFlag = false;
   }
 
@@ -157,7 +163,8 @@ void checkRadio(void)
   {
     // Have we failed to transmit request?
     // The retry to get data from node
-    if(DEBUG) Serial.println(F("Send:Failed retrying now"));
+    if (DEBUG)
+      Serial.println(F("Send:Failed retrying now"));
     badDataFlag = true;
   }
 
@@ -167,22 +174,25 @@ void checkRadio(void)
     char dataFromNode[BUFF_SIZE] = "";
     radio.read(&dataFromNode, sizeof(dataFromNode));
     incomingData = dataFromNode; // convert to string for futer use
-    if(DEBUG) Serial.println(incomingData);
+    if (DEBUG)
+      Serial.println(incomingData);
     if (incomingData == "")
     {
-      if(DEBUG) Serial.println(F("Receive: Bad data retrying now"));
+      if (DEBUG)
+        Serial.println(F("Receive: Bad data retrying now"));
       badDataFlag = true;
     }
     else
     {
-      if(DEBUG) Serial.println(F("Receive: OK"));
+      if (DEBUG)
+        Serial.println(F("Receive: OK"));
       dataDecriptionFlag = true;
       dataWaitingFlag = false;
     }
   }
 }
 
-String decriptData(String Nodedata,uint8_t retry)
+String decriptData(String Nodedata, uint8_t retry)
 {
   uint8_t j = 0;
   String subData[10];
@@ -205,6 +215,7 @@ String decriptData(String Nodedata,uint8_t retry)
   }
   data["retry"] = retry;
   serializeJson(data, jsonOutput);
-  if(DEBUG) Serial.println(jsonOutput); // print to serilal monitoro for debug purpuses
+  if (DEBUG)
+    Serial.println(jsonOutput); // print to serilal monitoro for debug purpuses
   return jsonOutput;
 }

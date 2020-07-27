@@ -8,7 +8,7 @@
                 "${workspaceRoot}"
             ],
             "forcedInclude": [
-                "C:\\\\Program Files (x86)\\\\Arduino\\\\hardware\\\\arduino\\\\avr\\\\cores\\\\arduino\\\\Arduino.h",
+                "C:\\Program Files (x86)\\Arduino\\hardware\\arduino\\avr\\cores\\arduino\\Arduino.h",
                 "${workspaceRoot}"
             ],
             "intelliSenseMode": "msvc-x64",

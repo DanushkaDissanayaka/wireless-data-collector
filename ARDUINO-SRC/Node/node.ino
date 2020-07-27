@@ -5,11 +5,19 @@
 #include "setting.h"
 #include "buzzer.h"
 #include "radio.h"
+#include <dht11.h>
 
 static uint32_t message_count = 0;
 bool sendData = false;
 bool successFlag = false;
 bool errorflag = false;
+int tempNHum = 0;
+
+/**
+ * Sensor pin definition
+ */
+#define DHT11PIN 4
+dht11 DHT11;
 
 void setup()
 {
@@ -24,7 +32,7 @@ void setup()
 
     radio.setPALevel(RF24_PA_MAX);
     radio.setDataRate(RF24_250KBPS);
-    radio.enableAckPayload();      // We will be using the Ack Payload feature, so please enable it
+    radio.enableAckPayload();      // We will be using the Ack Payload feature
     radio.enableDynamicPayloads(); // Ack payloads are dynamic payloads
 
     // Open pipes to other node for communication
@@ -43,6 +51,8 @@ void setup()
 /********************** Main Loop *********************/
 void loop()
 {
+    tempNHum = DHT11.read(DHT11PIN);
+
     if (successFlag)
     {
         // Idicate successfully send the data;
@@ -101,12 +111,23 @@ void checkRadio(void)
 
 String getData()
 {
-    uint32_t time = millis();
-
-    return String(time) + "&" + String(voltageTest());
+    String massage = getHum() + "&" + getTemp() + "&" + String(voltageTest());
+    Serial.println(massage);
+    return massage;
 }
 
 uint16_t voltageTest()
 {
     return analogRead(A3);
+}
+
+String getTemp()
+{
+    return String((float)DHT11.temperature);
+}
+
+String getHum()
+{
+
+    return String((float)DHT11.humidity);
 }

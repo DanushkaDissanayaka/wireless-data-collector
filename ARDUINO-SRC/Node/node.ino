@@ -5,7 +5,7 @@
 #include "setting.h"
 #include "buzzer.h"
 #include "radio.h"
-#include <dht11.h>
+#include "dht11.h"
 
 static uint32_t message_count = 0;
 bool sendData = false;

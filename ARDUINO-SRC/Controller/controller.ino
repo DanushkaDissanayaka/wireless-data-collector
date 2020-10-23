@@ -6,10 +6,10 @@
 #include "printf.h"
 //#include "radio.h"
 #include "setting.h"
-//#include "simcard.h"
+#include "simcard.h"
 //#include "rtc.h"
 
-RF24 radio(7, 8); // Set up nRF24L01 radio on SPI bus plus pins 7 & CE/CS
+RF24 radio(4, 3); // Set up nRF24L01 radio on SPI bus plus pins 7 & CE/CS
 
 /* jason declarations */
 StaticJsonDocument<512> doc;
@@ -30,7 +30,7 @@ void setup()
 {
   Serial.begin(115200);
   printf_begin();
-  //simInit();
+  simInit();
   //rtcSetup();
   // Setup and configure rf radio
   while (!radio.begin())
@@ -82,8 +82,8 @@ void loop()
   //data["packet"] = packetCounter;     // Add Packet number
   serializeJson(data, jsonOutput);
   Serial.println(jsonOutput);
-  Serial.println(jsonOutput.length());
-  //sendMessage(jsonOutput);
+  //Serial.println(jsonOutput.length());
+  sendMessage(jsonOutput);
   delay(10000); // Wait some time before beign next cycle
 }
 

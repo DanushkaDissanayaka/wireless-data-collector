@@ -10,7 +10,7 @@
     #define BUFF_SIZE       32 // Buffer size canot get more than 32byte
 
     const byte NODE_ADDRESS[][5]        =   {   0xCC, 0xCE, 0xCC, 0xCE, 0xCC,
-                                                0xCC, 0xCE, 0xCC, 0xCE, 0xEE,
+                                                0xCC, 0xCE, 0xCC, 0xCE, 0xCD,
                                             };
     const byte CONTROLLER_ADDRESS[5]    =   {0xCE, 0xCC, 0xCE, 0xCC, 0xCE};
 
@@ -19,6 +19,6 @@
 
     #define RETRY_TIMES 5
 
-    #define DEBUG false
+    #define DEBUG true
 
 #endif // SETTING_H

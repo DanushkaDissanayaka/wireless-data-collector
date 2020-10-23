@@ -1,0 +1,7 @@
+{
+    "programmer": "AVR ISP",
+    "board": "arduino:avr:pro",
+    "configuration": "cpu=16MHzatmega328",
+    "port": "COM16",
+    "sketch": "ARDUINO-SRC\\CONTROLLER\\controller.ino"
+}

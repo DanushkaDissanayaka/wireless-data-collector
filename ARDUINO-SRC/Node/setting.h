@@ -5,7 +5,7 @@
     #define WAITING_DELAY   2000
     #define BUFF_SIZE   64
 
-    const byte NODE_ADDRESS[5]          =   {0xCC, 0xCE, 0xCC, 0xCE, 0xEE};
+    const byte NODE_ADDRESS[5]          =   {0xCC, 0xCE, 0xCC, 0xCE, 0xCE};
     const byte CONTROLLER_ADDRESS[5]    =   {0xCE, 0xCC, 0xCE, 0xCC, 0xCE};
 
     // Buzzer

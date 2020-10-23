@@ -1,7 +1,8 @@
 {
     "board": "arduino:avr:pro",
-    "port": "COM9",
+    "port": "COM16",
     "sketch": "node.ino",
     "output": "../Nodeoutput",
-    "configuration": "cpu=8MHzatmega328"
+    "configuration": "cpu=8MHzatmega328",
+    "programmer": "AVR ISP"
 }
